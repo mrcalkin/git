@@ -1,0 +1,31 @@
+$data=Import-Csv -Path C:\Users\calkins\Desktop\NewStudents1617.csv
+$data | ForEach-Object {
+$First = $_.GivenName
+$Last = $_.Surname
+$Year = $_.year
+$UPN = "$First"+"."+"$Last"+($Year-2000)+"@my.libertychristian.com"
+$SAML = "$First"+"."+"$Last"+($Year-2000)
+$Path = "OU="+$Year+",OU=Students,DC=libertychristian,DC=com"
+if ($SAML.Length -gt 20) {
+$SAM = $SAML.Substring(0,20)
+}
+else {
+$SAM = $SAML
+}
+set-msoluser -UserPrincipalName $UPN -UsageLocation "US"
+}
+$data | ForEach-Object {
+$First = $_.GivenName
+$Last = $_.Surname
+$Year = $_.year
+$UPN = "$First"+"."+"$Last"+($Year-2000)+"@my.libertychristian.com"
+$SAML = "$First"+"."+"$Last"+($Year-2000)
+$Path = "OU="+$Year+",OU=Students,DC=libertychristian,DC=com"
+if ($SAML.Length -gt 20) {
+$SAM = $SAML.Substring(0,20)
+}
+else {
+$SAM = $SAML
+}
+Set-MsolUserLicense -UserPrincipalName $UPN -AddLicense "libertytest:STANDARDWOFFPACK_STUDENT"
+}
